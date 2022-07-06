@@ -1,0 +1,6 @@
+{
+  "pathToNmapExecutable": "C:\Program Files (x86)\Nmap\nmap.exe",
+  "nmapResultFilterRegex": "",
+  "stateTwoLetterAbbreviation": "MD",
+  "boolUsingDjangoFrontEnd": "True"
+}

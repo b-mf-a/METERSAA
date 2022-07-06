@@ -1,0 +1,54 @@
+{% extends 'masterlist/base.html' %}
+
+{% block navitems %}
+	{% for location in locations %}
+		<a href='#{{ location.0 }}'> {{ location.0 }}</a>
+	{% endfor %}
+{% endblock %}
+
+{% block content %}
+
+{% load cleandatetime %}
+
+{% for location in locations %}
+
+    <h2 id='{{ location.0 }}'>{{ location.0 }}</h2>
+    <h3>{{ location.2 }}</h3>
+    <h3>{{ location.1 }}</h3>
+    
+    <table border=1>
+        <thead>
+            <td>ORI</td>
+            <td>Term ID</td>
+            <td>Last seen on device</td>
+            <td>At Location</td>
+            <td>Datetime</td>
+        </thead>
+        
+        {% for row in scanresults %}
+            {% url 'masterlist:termid' termid=row.deviceid_termid as page_deviceid %}
+            {% if row.location_name == location.0 %}
+                {% if row.location_name == row.wtlocation_name %} 
+                    <tr>
+                {% elif row.wtlocation_name is None %}
+                    <tr class='notfound'>
+                {% elif row.location_name != row.wtlocation_name %}
+                    <tr class='mismatch'>
+                {% endif %}
+                    <td><a href='{{ page_deviceid }}'>{{ row.deviceid_ori }}</a></td>
+                    <td><a href='{{ page_deviceid }}'>{{ row.deviceid_termid }}</a></td>
+                    <td>{{ row.computer_name|default_if_none:"-" }}</td>
+                    <td>{{ row.wtlocation_name|default_if_none:"-" }}</td>
+                    {% if row.scanresult_datetime is None %}
+                        <td>{{ row.scanresult_datetime|default_if_none:"-" }}</td>
+                    {% else %}
+                        <td>{{ row.scanresult_datetime|cleandatetime }}</td>
+                    {% endif %}
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+    
+{% endfor %}
+
+{% endblock %}

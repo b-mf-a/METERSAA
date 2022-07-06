@@ -1,0 +1,44 @@
+{
+	"powershellSqlDatabase": "C:\MetersAA\crawler\logs\results314.SQLite",
+	"djangoSqlDatabase": "C:\MetersAA\frontend\db.sqlite3",
+	"mappings": [
+		{
+			"powershellSqlTable": "core_computernames",
+			"djangoSqlTable": "core_computer",
+			"powershellToDjangoColumnMappings": {
+				"computername_id": "id",
+				"computername_name": "computer_name"
+			}
+		},
+		{
+			"powershellSqlTable": "core_deviceids",
+			"djangoSqlTable": "core_deviceid",
+			"powershellToDjangoColumnMappings": {
+				"deviceid_id": "id",
+				"deviceid_ori": "deviceid_ori",
+				"deviceid_termid": "deviceid_termid"
+			}
+		},
+		{
+			"powershellSqlTable": "core_subnets",
+			"djangoSqlTable": "core_subnet",
+			"powershellToDjangoColumnMappings": {
+				"subnet_id": "id",
+				"subnet_address": "subnet_address"
+			}
+		},
+{
+			"powershellSqlTable": "scan_results",
+			"djangoSqlTable": "core_scanresult",
+			"powershellToDjangoColumnMappings": {
+				"result_id": "id",
+				"result_computername_id": "scanresult_computer_id_id",
+				"result_filedesktoppresent": "scanresult_filedesktoppresent",
+				"result_filecurrentpresent": "scanresult_filecurrentpresent",
+				"result_subnet_id": "scanresult_subnet_id_id",
+				"result_deviceid_id": "scanresult_deviceid_id_id",
+				"result_datetime": "scanresult_datetime"
+			}
+		}
+	]
+}

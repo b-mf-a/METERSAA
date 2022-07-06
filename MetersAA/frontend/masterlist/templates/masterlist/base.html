@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>METERS Automated Audit{% block title %} {% endblock %}</title>
+    
+    {% load static %}
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'masterlist/style.css' %}" />
+    
+    <style>
+        nav a {
+            color: #d64161;
+            font-size: 3em;
+            margin-left: 50px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+
+
+	<div class="sidenav">
+        {% url 'admin:index' as the_admin %}
+        <a href='{{ the_admin }}'> Admin Login </a>
+        <hr />
+		{% block navitems %} {% endblock %}
+	</div>
+
+    <div class="main content">
+		
+		<nav>
+			<a>METERS Device IDs List</a>
+		</nav>
+    
+		<hr>
+		    
+        {% block content %} {% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+{% extends 'masterlist/base.html' %}
+
+{% block navitems %}
+    {% url 'masterlist:index' as the_home %}
+    <a href='{{ the_home }}'> Back to masterlist </a>
+{% endblock %}
+
+{% block content %}
+
+{% load cleandatetime %}
+    
+    <div class='info'>ORI - TermID</div>
+    <h2>{{ deviceidinfo.0.deviceid_ori }} - {{ deviceidinfo.0.deviceid_termid }}</h2>
+    <div class='info'>Registered to:</div>
+    <h3>{{ deviceidinfo.0.location_name }}</h3>
+    
+    <table border=1>
+        <thead>
+            <td>ORI</td>
+            <td>Term ID</td>
+            <td>Last seen on device</td>
+            <td>At Location</td>
+            <td>Datetime</td>
+        </thead>
+        
+        {% for row in scanresults %}
+                {% if row.at_location == row.registered_location %} 
+                    <tr>
+                {% elif row.at_location is None %}
+                    <tr class='notfound'>
+                {% elif row.at_location != row.registered_location %}
+                    <tr class='mismatch'>
+                {% endif %}
+                    <td>{{ row.deviceid_ori }}</td>
+                    <td>{{ row.deviceid_termid }}</td>
+                    <td>{{ row.computer_name|default_if_none:"-" }}</td>
+                    <td>{{ row.at_location|default_if_none:"-" }}</td>
+                    {% if row.scanresult_datetime is None %}
+                        <td>{{ row.scanresult_datetime|default_if_none:"-" }}</td>
+                    {% else %}
+                        <td>{{ row.scanresult_datetime|cleandatetime }}</td>
+                    {% endif %}
+                </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

@@ -1,0 +1,4 @@
+# requirements.txt file
+Django==4.0.5
+wfastcgi
+django-import-export
