@@ -190,8 +190,13 @@ function Find-ORIAndTermID {
     $matchORI = $null
     $matchTermId = $null
 
-    $pathToPrimarySource = "\\$computerNameOrIp\c$\Omnixx\OMNIXX\desktop.log" 
-    $pathToSecondarySource = "\\$computerNameOrIp\c$\Omnixx\OMNIXX\OmnixxForce\LOGS\current.idx"
+    #$pathToPrimarySource = "\\$computerNameOrIp\c$\Omnixx\OMNIXX\desktop.log" 
+    #$pathToSecondarySource = "\\$computerNameOrIp\c$\Omnixx\OMNIXX\OmnixxForce\LOGS\current.idx"
+
+    # new location when using METERS 7 (not absolutely sure) [07 08 2022 1322]
+
+    $pathToPrimarySource = "\\$computerNameOrIp\c$\Omnixx7\OMNIXX\desktop.log"
+    $pathToSecondarySource = "\\$computerNameOrIp\c$\Omnixx7\OMNIXX\OmnixxForce\LOGS\current.idx"
 
     try {
 
@@ -205,13 +210,13 @@ function Find-ORIAndTermID {
             # need to do this to make file a workable object
             $strContents = Get-ChildItem $pathToPrimarySource
 
-            # ORI (ex. MD#######)
+            # ORI (ex. MD0#####5)
             # NOTE: if a METERS/NCIC query has never been executed, you will not find the device specific ORI, only the organization's general ORI
             $matchORI = Select-String 'ORI="(\w{9})"' -InputObject $strContents
         
             try { $myObject.ori = $matchORI = $matchORI.Matches.Groups[1].Value } catch { Write-Warning "$computerNameOrIp | PSource | No ORI match with value" }
 
-            # Term ID (ex. P###)
+            # Term ID (ex. W###)
             $matchTermId = Select-String 'DEV ID="(\w{4})"' -InputObject $strContents
             if (-Not $matchTermId) { $matchTermId = Select-String 'SDV DEV="(\w{4})"' -InputObject $strContents }
             if (-Not $matchTermId) { $matchTermId = Select-String 'SDV VAL="(\w{4})"' -InputObject $strContents }
