@@ -5,6 +5,16 @@ param(
         [string]$subnet
 )
 
+#----------------------------------------
+
+# generate name for log file
+$logFile = "logfile_" + (Get-Date -Format "MMddyyyy-HHmm-ss") + ".log"
+ 
+# start logging to above file
+#Start-Transcript -Path ("$PSScriptRoot\logs\$logFile")
+
+#----------------------------------------
+
 # verify script being run with Powershell 7 or greater
 
 if( $host.Version.Major -lt 7 ){
@@ -66,7 +76,7 @@ if(-Not (Test-Path $pathToNmapExecutable )) {
 
 # unmaps all drives letters, as these may be used by script
 
-net use * /delete /y
+#net use * /delete /y
 
 Enum DriveLetters
 
@@ -77,7 +87,6 @@ N
 O
 P
 Q
-R
 S
 T
 U
@@ -88,6 +97,10 @@ Y
 Z
 
 }
+
+# unmaps all drives letters, as these may be used by script
+
+[DriveLetters].GetEnumNames() | % { try { Get-PSDrive $_ -ErrorAction Stop | Remove-PSDrive -Force } catch { echo "$_" } }
 
 $writeLocation = "$PSScriptRoot\logs"
 if (-Not (Test-Path $writeLocation -PathType Container) ) { mkdir $writeLocation }
@@ -107,7 +120,9 @@ function Complete-MAAResourceCleanup {
 
     # unmaps all drives letters that may have been used by script
     
-    net use * /delete /y
+    #net use * /delete /y
+
+    [DriveLetters].GetEnumNames() | % { try { Get-PSDrive $_ -ErrorAction Stop | Remove-PSDrive -Force } catch { echo "$_" } }
 
     # normalize data in sqlite db
     
@@ -290,3 +305,5 @@ if(	[System.Convert]::ToBoolean($configVariables.boolUsingDjangoFrontEnd) ) {
 } 
 
 echo "I printed last"
+
+#Stop-Transcript
