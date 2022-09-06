@@ -91,6 +91,11 @@ class DeviceId(models.Model):
                                 blank=False,
                                 verbose_name="Active",
                             )
+    deviceid_note = models.TextField(
+                                null=True,
+                                blank=True,
+                                verbose_name="Note",
+                            )
 
     def __str__(self):
         return self.deviceid_termid

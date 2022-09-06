@@ -23,6 +23,7 @@
             <td>Last seen on device</td>
             <td>At Location</td>
             <td>Datetime</td>
+			<td>Note</td>
         </thead>
         
         {% for row in scanresults %}
@@ -44,6 +45,7 @@
                     {% else %}
                         <td>{{ row.scanresult_datetime|cleandatetime }}</td>
                     {% endif %}
+					<td>{{ row.deviceid_note|default_if_none:"-" }}</td>
                 </tr>
             {% endif %}
         {% endfor %}

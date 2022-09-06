@@ -13,6 +13,8 @@
     <h2>{{ deviceidinfo.0.deviceid_ori }} - {{ deviceidinfo.0.deviceid_termid }}</h2>
     <div class='info'>Registered to:</div>
     <h3>{{ deviceidinfo.0.location_name }}</h3>
+	<div class='info'>Note:</div>
+    <h3>{{ deviceidinfo.0.deviceid_note|default_if_none:"-" }}</h3>
     
     <table border=1>
         <thead>

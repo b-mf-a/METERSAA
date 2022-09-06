@@ -18,11 +18,11 @@ class SqlQueries():
     def get_last_seen_of_all_masterlist_deviceids():
         with connection.cursor() as cursor:
             cursor.execute("""
-                SELECT w.id,w.location_name,w.deviceid_ori,w.deviceid_termid,c.computer_name,wtshouldbe.subnet_address as wtsubnet_address,wtshouldbe.location_name as wtlocation_name,e.scanresult_datetime
+                SELECT w.id,w.location_name,w.deviceid_ori,w.deviceid_termid,w.deviceid_note,c.computer_name,wtshouldbe.subnet_address as wtsubnet_address,wtshouldbe.location_name as wtlocation_name,e.scanresult_datetime
                 FROM (
-                    SELECT t.id, t.deviceid_ori, t.deviceid_termid, t.location_name, t.id
+                    SELECT t.id, t.deviceid_ori, t.deviceid_termid, t.location_name, t.deviceid_note, t.id
                     FROM (
-                        SELECT z.deviceid_ori,z.deviceid_termid,k.location_name,y.id,k.id
+                        SELECT z.deviceid_ori,z.deviceid_termid,z.deviceid_note,k.location_name,y.id,k.id
                         FROM masterlist_deviceid z
                         LEFT JOIN core_deviceid y ON z.deviceid_termid = y.deviceid_termid
                         JOIN masterlist_location k ON z.deviceid_location_id_id = k.id
@@ -92,7 +92,7 @@ class SqlQueries():
     def get_deviceid_info(termid):
         with connection.cursor() as cursor:
             cursor.execute("""
-                SELECT mld.deviceid_ori,mld.deviceid_termid,tml.location_name
+                SELECT mld.deviceid_ori,mld.deviceid_termid,tml.location_name,mld.deviceid_note
                 FROM masterlist_deviceid mld
                 JOIN masterlist_location tml ON mld.deviceid_location_id_id = tml.id
                 WHERE mld.deviceid_termid = '""" + str(termid) + """'

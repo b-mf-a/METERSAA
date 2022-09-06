@@ -6,7 +6,7 @@ from import_export.admin import ImportExportMixin
 from .models import DeviceId, Location, Section, Subnet 
 
 class DeviceIdAdmin(ImportExportMixin, admin.ModelAdmin):
-    list_display = ['deviceid_ori', 'deviceid_termid']
+    list_display = ['deviceid_ori', 'deviceid_termid', 'deviceid_note']
 
 class LocationAdmin(ImportExportMixin, admin.ModelAdmin):
     list_display = ['location_name', 'location_phone', 'location_physicaladdress']
